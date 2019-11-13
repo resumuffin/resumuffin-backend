@@ -1,9 +1,14 @@
-package resu.muffin.users_and_comments.entities;
+package resu.muffin.users_and_comments.users.entities;
+
+import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,28 +17,35 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
-    private boolean isAdmin; // enum
     private String username;
     private String password;
     private String displayName;
     
+    @ManyToMany
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(
+          name = "user_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id")) 
+    private Collection<Role> roles;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(long id, boolean isAdmin, String username, String password, String displayName) {
-        this.id = id;
-        this.isAdmin = isAdmin;
+    public User(String username, String password, String displayName, Collection<Role> roles) {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
+        this.roles = roles;
     }
 
-    public boolean getIsAdmin() {
-        return this.isAdmin;
+    public long getId() {
+        return this.id;
     }
-    
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -58,5 +70,13 @@ public class User {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }
