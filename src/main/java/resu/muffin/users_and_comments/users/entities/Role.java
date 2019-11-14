@@ -1,7 +1,5 @@
 package resu.muffin.users_and_comments.users.entities;
 
-import java.util.Collection;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,25 +12,36 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private boolean CAN_POST_COMMENTS;
-    private boolean CAN_DELETE_COMMENTS;
-    private boolean CAN_RATE_COMMENTS;
-    private boolean CAN_UPLOAD_RESUME;
-    private boolean CAN_START_NEW_THREAD;
+    private boolean POST_COMMENTS;
+    private boolean DELETE_COMMENTS;
+    private boolean RATE_COMMENTS;
+    private boolean UPLOAD_RESUME;
+    private boolean START_NEW_THREAD;
 
     public Role() {
+        this.POST_COMMENTS = false;
+        this.DELETE_COMMENTS = false;
+        this.RATE_COMMENTS = false;
+        this.UPLOAD_RESUME = false;
+        this.START_NEW_THREAD = false;
     }
 
     public Role(String name) {
         this.name = name;
+        this.POST_COMMENTS = false;
+        this.DELETE_COMMENTS = false;
+        this.RATE_COMMENTS = false;
+        this.UPLOAD_RESUME = false;
+        this.START_NEW_THREAD = false;
     }
 
-    public Role(String name, boolean CAN_POST_COMMENTS, boolean CAN_DELETE_COMMENTS, boolean CAN_RATE_COMMENTS, boolean CAN_UPLOAD_RESUME) {
+    public Role(String name, boolean POST_COMMENTS, boolean DELETE_COMMENTS, boolean RATE_COMMENTS, boolean UPLOAD_RESUME, boolean START_NEW_THREAD) {
         this.name = name;
-        this.CAN_POST_COMMENTS = CAN_POST_COMMENTS;
-        this.CAN_DELETE_COMMENTS = CAN_DELETE_COMMENTS;
-        this.CAN_RATE_COMMENTS = CAN_RATE_COMMENTS;
-        this.CAN_UPLOAD_RESUME = CAN_UPLOAD_RESUME;
+        this.POST_COMMENTS = POST_COMMENTS;
+        this.DELETE_COMMENTS = DELETE_COMMENTS;
+        this.RATE_COMMENTS = RATE_COMMENTS;
+        this.UPLOAD_RESUME = UPLOAD_RESUME;
+        this.START_NEW_THREAD = START_NEW_THREAD;
     }
 
     public Long getId() {
@@ -51,43 +60,43 @@ public class Role {
         this.name = name;
     }
 
-    public boolean getCAN_POST_COMMENTS() {
-        return this.CAN_POST_COMMENTS;
+    public boolean getPOST_COMMENTS() {
+        return this.POST_COMMENTS;
     }
 
-    public void setCAN_POST_COMMENTS(boolean CAN_POST_COMMENTS) {
-        this.CAN_POST_COMMENTS = CAN_POST_COMMENTS;
+    public void setPOST_COMMENTS(boolean POST_COMMENTS) {
+        this.POST_COMMENTS = POST_COMMENTS;
     }
 
-    public boolean getCAN_DELETE_COMMENTS() {
-        return this.CAN_DELETE_COMMENTS;
+    public boolean getDELETE_COMMENTS() {
+        return this.DELETE_COMMENTS;
     }
 
-    public void setCAN_DELETE_COMMENTS(boolean CAN_DELETE_COMMENTS) {
-        this.CAN_DELETE_COMMENTS = CAN_DELETE_COMMENTS;
+    public void setDELETE_COMMENTS(boolean DELETE_COMMENTS) {
+        this.DELETE_COMMENTS = DELETE_COMMENTS;
     }
 
-    public boolean getCAN_RATE_COMMENTS() {
-        return this.CAN_RATE_COMMENTS;
+    public boolean getRATE_COMMENTS() {
+        return this.RATE_COMMENTS;
     }
 
-    public void setCAN_RATE_COMMENTS(boolean CAN_RATE_COMMENTS) {
-        this.CAN_RATE_COMMENTS = CAN_RATE_COMMENTS;
+    public void setRATE_COMMENTS(boolean RATE_COMMENTS) {
+        this.RATE_COMMENTS = RATE_COMMENTS;
     }
 
-    public boolean getCAN_UPLOAD_RESUME() {
-        return this.CAN_UPLOAD_RESUME;
+    public boolean getUPLOAD_RESUME() {
+        return this.UPLOAD_RESUME;
     }
 
-    public void setCAN_UPLOAD_RESUME(boolean CAN_UPLOAD_RESUME) {
-        this.CAN_UPLOAD_RESUME = CAN_UPLOAD_RESUME;
+    public void setUPLOAD_RESUME(boolean UPLOAD_RESUME) {
+        this.UPLOAD_RESUME = UPLOAD_RESUME;
     }
 
-    public boolean getCAN_START_NEW_THEAD() {
-        return this.CAN_START_NEW_THREAD;
+    public boolean getSTART_NEW_THEAD() {
+        return this.START_NEW_THREAD;
     }
 
-    public void setCAN_START_NEW_THREAD(boolean CAN_START_NEW_THREAD) {
-        this.CAN_START_NEW_THREAD = CAN_START_NEW_THREAD;
+    public void setSTART_NEW_THREAD(boolean START_NEW_THREAD) {
+        this.START_NEW_THREAD = START_NEW_THREAD;
     }
 }
