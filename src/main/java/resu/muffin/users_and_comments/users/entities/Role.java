@@ -10,7 +10,7 @@ public class Role {
   
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private short id;
     private String name;
     private boolean POST_COMMENTS;
     private boolean DELETE_COMMENTS;
@@ -44,11 +44,11 @@ public class Role {
         this.START_NEW_THREAD = START_NEW_THREAD;
     }
 
-    public Long getId() {
+    public short getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(short id) {
         this.id = id;
     }
 

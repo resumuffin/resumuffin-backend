@@ -1,14 +1,11 @@
 package resu.muffin.users_and_comments.users.entities;
 
-import java.util.Collection;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,27 +14,28 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
+    private String email;
     private String username;
     private String password;
-    private String displayName;
-    
-    @ManyToMany
-    @JoinTable( 
-        name = "users_roles", 
-        joinColumns = @JoinColumn(
-          name = "user_id", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(
-          name = "role_id", referencedColumnName = "id")) 
-    private Collection<Role> roles;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="role_id", nullable=false, updatable=false)
+    private Role role;
 
     public User() {
     }
 
-    public User(String username, String password, String displayName, Collection<Role> roles) {
+    public User(String email, String username, String password) {
+        this.email = email;
         this.username = username;
         this.password = password;
-        this.displayName = displayName;
-        this.roles = roles;
+    }
+
+    public User(String email, String username, String password, Role role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public long getId() {
@@ -46,6 +44,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -64,19 +70,12 @@ public class User {
         this.password = password;
     }
 
-    public String getDisplayName() {
-        return this.displayName;
+    public Role getRole() {
+        return this.role;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public Collection<Role> getRoles() {
-        return this.roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
 }
