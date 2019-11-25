@@ -1,5 +1,6 @@
 package resu.muffin.users_and_comments.users.api;
 
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +19,29 @@ public class UserController {
     @PostMapping(value="/addUser")
     @ApiOperation(value="SUP")
     boolean registerUser(String email, String username, String password) {
-        return userService.registerUser(email, username, password);
+        try {
+            email = Encode.forJava(email);
+            username = Encode.forJava(username);
+            password = Encode.forJava(password);
+            return userService.registerUser(email, username, password);
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 
     // should return a token
     @GetMapping(value="/authenticate")
     boolean authenticate(String email, String username, String password) {
+        email = Encode.forJava(email);
+        username = Encode.forJava(username);
+        password = Encode.forJava(password);
         return userService.authenticate(email, username, password);
     } 
 
     @GetMapping(value="/getUser")
     User getUser(String username) {
+        username = Encode.forJava(username);
         return userService.getUser(username);
     }
 }

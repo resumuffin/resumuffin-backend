@@ -1,5 +1,7 @@
 package resu.muffin.users_and_comments.comments.entities;
 
+import java.time.OffsetDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,21 +15,40 @@ public class Comment {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private long userId;
+    private long resumeId;
     private long parentId;
+    private long threadId;
+    private long views;
+    private OffsetDateTime timestamp;
+    private String subject;
     private String content;
-    private short upVotes;
-    private short downVotes;
+    private int upvotes;
+    private int downvotes;
 
     public Comment() {
     }
 
-    public Comment(long id, long userId, long parentId, String content, short upVotes, short downVotes) {
-        this.id = id;
+    public Comment(long userId, long resumeId, String subject, String content) {
+        this.userId = userId;
+        this.parentId = -1;
+        this.resumeId = resumeId;
+        this.views = 0;
+        this.timestamp = getTimestamp();
+        this.subject = subject;
+        this.content = content;
+        this.upvotes = 0;
+        this.downvotes = 0;
+    }
+
+    public Comment(long userId, long parentId, long threadId, String content) {
         this.userId = userId;
         this.parentId = parentId;
+        this.threadId = threadId;
+        this.views = 0;
+        this.timestamp = getTimestamp();
         this.content = content;
-        this.upVotes = upVotes;
-        this.downVotes = downVotes;
+        this.upvotes = 0;
+        this.downvotes = 0;
     }
 
     public long getId() {
@@ -46,12 +67,40 @@ public class Comment {
         this.userId = userId;
     }
 
+    public long getResumeId() {
+        return this.resumeId;
+    }
+
+    public void setResumeId(long resumeId) {
+        this.resumeId = resumeId;
+    }
+
     public long getParentId() {
         return this.parentId;
     }
 
     public void setParentId(long parentId) {
         this.parentId = parentId;
+    }
+
+    public long getTheeadId() {
+        return this.threadId;
+    }
+
+    public long getViews() {
+        return this.views;
+    }
+
+    public OffsetDateTime getTimestamp() {
+        return this.timestamp;
+    }
+
+    public String getSubject() {
+        return this.subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getContent() {
@@ -62,19 +111,19 @@ public class Comment {
         this.content = content;
     }
 
-    public int getUpVotes() {
-        return this.upVotes;
+    public int getUpvotes() {
+        return this.upvotes;
     }
 
-    public void setUpVotes(short upVotes) {
-        this.upVotes = upVotes;
+    public void setUpvotes(int upvotes) {
+        this.upvotes = upvotes;
     }
 
-    public int getDownVotes() {
-        return this.downVotes;
+    public int getDownvotes() {
+        return this.downvotes;
     }
 
-    public void setDownVotes(short downVotes) {
-        this.downVotes = downVotes;
+    public void setDownvotes(int downvotes) {
+        this.downvotes = downvotes;
     }
 }
