@@ -7,18 +7,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import resu.muffin.users_and_comments.users.db.RoleRepository;
-import resu.muffin.users_and_comments.users.db.UserRepository;
 import resu.muffin.users_and_comments.users.entities.Role;
-import resu.muffin.users_and_comments.users.entities.User;
 
 @Component
 public class DBConfig implements ApplicationListener<ContextRefreshedEvent>{
 
     @Autowired
     private RoleRepository roleRepo;
-
-    @Autowired
-    private UserRepository userRepo;
 
     @Override
     @Transactional

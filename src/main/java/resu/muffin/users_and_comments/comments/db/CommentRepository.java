@@ -12,5 +12,5 @@ import resu.muffin.users_and_comments.comments.entities.Comment;
 public interface CommentRepository extends CrudRepository<Comment, Long> {
     Optional<Comment> findByThreadId(long threadId);
 
-    ArrayList<Comment> findTop10OrderByTimestampDesc();
+    ArrayList<Comment> findTop10By();
 }

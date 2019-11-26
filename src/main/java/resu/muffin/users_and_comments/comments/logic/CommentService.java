@@ -29,7 +29,7 @@ public class CommentService {
     }
 
 	public ArrayList<Comment> getTopTenThreads() {
-		return commentRepo.findTop10OrderByTimestampDesc();
+		return commentRepo.findTop10By();
 	}
 
 	public void createThread(long userId, long resumeId, String subject, String content) {

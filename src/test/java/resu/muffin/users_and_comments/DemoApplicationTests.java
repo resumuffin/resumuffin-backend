@@ -1,4 +1,4 @@
-package resu.muffin.users.user;
+package resu.muffin.users_and_comments;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
