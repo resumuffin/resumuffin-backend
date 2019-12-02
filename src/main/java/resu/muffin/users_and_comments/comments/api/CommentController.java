@@ -2,6 +2,8 @@ package resu.muffin.users_and_comments.comments.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,27 +37,27 @@ public class CommentController {
     
     // check if allowed to create thread
     @PostMapping("/comment/createThread")
-    public void createThread(long userId, long resumeId, String subject, String content) {
-        commentService.createThread(userId, resumeId, subject, content);
+    public void createThread(HttpSession session, long userId, long resumeId, String subject, String content) {
+        commentService.createThread(session, userId, resumeId, subject, content);
     }
 
     @GetMapping("/comment/createComment")
-    public void addComment(long userId, long parentId, long threadId, String content) {
-        commentService.createComment(userId, parentId, threadId, content);
+    public void addComment(HttpSession session, long userId, long parentId, long threadId, String content) {
+        commentService.createComment(session, userId, parentId, threadId, content);
     }
 
     @GetMapping("/comment/deleteComment")
-    public void deleteComment(long id, long userId) {
-        commentService.deleteComment(id, userId);
+    public void deleteComment(HttpSession session, long id, long userId) {
+        commentService.deleteComment(session, id, userId);
     }
 
     @GetMapping("/comment/upvoteComment")
-    public void upvoteComment(long id) {
-        commentService.upvoteComment(id);
+    public void upvoteComment(HttpSession session, long id) {
+        commentService.upvoteComment(session, id);
     }
 
     @GetMapping("/comment/downvoteComment")
-    public void downvoteComment(long id) {
-        commentService.downvoteComment(id);
+    public void downvoteComment(HttpSession session, long id) {
+        commentService.downvoteComment(session, id);
     }
 }

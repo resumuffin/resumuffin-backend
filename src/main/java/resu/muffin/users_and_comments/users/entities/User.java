@@ -17,6 +17,7 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private String accessToken;
 
     @ManyToOne(optional=false)
     @JoinColumn(name="role_id", nullable=false, updatable=false)
@@ -78,4 +79,11 @@ public class User {
         this.role = role;
     }
 
+    public String getAccessToken() {
+        return this.accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }

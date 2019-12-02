@@ -1,5 +1,7 @@
 package resu.muffin.users_and_comments.users.logic;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,9 +34,8 @@ public class UserService{
         return false;
     }
 
-
     // logging in
-    public boolean authenticate(String email, String username, String password) {
+    public boolean authenticate(HttpSession session, String email, String username, String password) {
         User user;
         user = userRepo.findByEmail(email).orElse(null);
         if(user == null) {
@@ -42,11 +43,24 @@ public class UserService{
             if(user == null)
                 return false;
         }
-        return pwEncoder.matches(password, user.getPassword());
+
+        if(pwEncoder.matches(password, user.getPassword())) {
+            user.setAccessToken(StringGenerator.generate(32));
+            session.setAttribute("TOKEN", user.getAccessToken());
+            userRepo.save(user);
+            return true;
+        }
+        return false;
     }
 
-    public User getUser(String username) {
-        return userRepo.findByUsername(username).orElse(null);
+    public User getUserDetails(HttpSession session, String username) {
+        if(session.getAttribute("TOKEN") != null) {
+            User user = userRepo.findByUsername(username).orElse(null);
+            // should throw some appropriate errors
+            if(user != null && user.getAccessToken().equals(session.getAttribute("TOKEN")))
+                return user;
+        }
+        return null;
     }
 
 }
