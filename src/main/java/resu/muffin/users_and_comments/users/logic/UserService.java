@@ -47,6 +47,7 @@ public class UserService{
         if(pwEncoder.matches(password, user.getPassword())) {
             user.setAccessToken(StringGenerator.generate(32));
             session.setAttribute("TOKEN", user.getAccessToken());
+            session.setAttribute("USER_ID", user.getId());
             userRepo.save(user);
             return true;
         }
