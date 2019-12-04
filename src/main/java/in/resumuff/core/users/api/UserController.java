@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,26 +20,32 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value="/addUser")
+    @PostMapping(value="/users/addUser/{email}/{username}/{password}")
     @ApiOperation(value="SUP")
-    boolean registerUser(String email, String username, String password) {
+    boolean registerUser(@PathVariable String email, @PathVariable String username, @PathVariable String password) {
         email = Encode.forJava(email);
         username = Encode.forJava(username);
         password = Encode.forJava(password);
         return userService.registerUser(email, username, password);
     }
 
-    @GetMapping(value="/authenticate")
-    boolean authenticate(@ApiIgnore HttpSession session, String email, String username, String password) {
-        email = Encode.forJava(email);
-        username = Encode.forJava(username);
+    @GetMapping(value="/users/authenticate/{userOrEmail}/{password}")
+    boolean authenticate(@ApiIgnore HttpSession session, @PathVariable String userOrEmail, @PathVariable String password) {
+        userOrEmail = Encode.forJava(userOrEmail);
         password = Encode.forJava(password);
-        return userService.authenticate(session, email, username, password);
+        return userService.authenticate(session, userOrEmail, password);
     } 
 
-    @GetMapping(value="/getUser")
-    User getUser(HttpSession session, String username) {
+    @GetMapping(value="/users/getUserDetails/{username}")
+    User getUser(@PathVariable String username) {
         username = Encode.forJava(username);
-        return userService.getUserDetails(session, username);
+        return userService.getUserDetails(username);
     }
+
+    @GetMapping(value="/users/getUserDetailsFull/{username}")
+    User getUser(@ApiIgnore HttpSession session, @PathVariable String username) {
+        username = Encode.forJava(username);
+        return userService.getUserDetailsFull(session, username);
+    }
+
 }

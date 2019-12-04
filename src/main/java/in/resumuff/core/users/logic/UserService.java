@@ -37,11 +37,11 @@ public class UserService{
     }
 
     // logging in
-    public boolean authenticate(HttpSession session, String email, String username, String password) {
+    public boolean authenticate(HttpSession session, String userOrEmail, String password) {
         User user;
-        user = userRepo.findByEmail(email).orElse(null);
+        user = userRepo.findByEmail(userOrEmail).orElse(null);
         if(user == null) {
-            user = userRepo.findByUsername(username).orElse(null);
+            user = userRepo.findByUsername(userOrEmail).orElse(null);
             if(user == null)
                 return false;
         }
@@ -56,7 +56,12 @@ public class UserService{
         return false;
     }
 
-    public User getUserDetails(HttpSession session, String username) {
+    // should hide some info
+    public User getUserDetails(String username) {
+        return userRepo.findByUsername(username).orElse(null);
+    }
+
+    public User getUserDetailsFull(HttpSession session, String username) {
         if(session.getAttribute("TOKEN") != null) {
             User user = userRepo.findByUsername(username).orElse(null);
             // should throw some appropriate errors
@@ -64,7 +69,7 @@ public class UserService{
                 return user;
         }
         return null;
-    }
+     }
 
     public ArrayList<User> getUserList(long position, short count) {
         ArrayList<User> users = new ArrayList<User>();
