@@ -9,7 +9,8 @@ import javax.persistence.*;
 public class Tag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    
     @Column(name = "id", nullable = false)
     @ApiModelProperty(readOnly = true, hidden = true)
     private long id;

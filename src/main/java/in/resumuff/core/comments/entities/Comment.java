@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name="comments")
 public class Comment {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     private long userId;
     private long resumeId;

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -69,12 +72,15 @@ public class UserService{
                 return user;
         }
         return null;
-     }
+    }
 
-    public ArrayList<User> getUserList(long position, short count) {
-        ArrayList<User> users = new ArrayList<User>();
-        //users = userRepo.findAll(pageable);
-        
+    public Iterable<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    public Page<User> getUsers(int pageNum, int pageLen) {
+        Pageable pageable = PageRequest.of(pageNum, pageLen);
+        Page<User> users = userRepo.findAll(pageable);
         return users;
     }
 }

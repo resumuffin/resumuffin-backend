@@ -3,6 +3,9 @@ package in.resumuff.core.resumes.service;
 import in.resumuff.core.resumes.entity.Tag;
 import in.resumuff.core.resumes.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
@@ -41,6 +44,12 @@ public class TagService {
 
     public Iterable<Tag> getAllTags(){
         return repository.findAll();
+    }
+
+    public Page<Tag> getTags(int pageNum, int pageLength) {
+        Pageable pageable = PageRequest.of(pageNum, pageLength);
+        Page<Tag> tags = repository.findAll(pageable);
+        return tags;
     }
 
     public boolean validTags(int[] tags){

@@ -3,6 +3,7 @@ package in.resumuff.core.resumes.endpoints;
 import in.resumuff.core.resumes.entity.Resume;
 import in.resumuff.core.resumes.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,16 @@ public class ResumeController {
     @GetMapping("/resume/get/{id}")
     public ResponseEntity<Resume> getResume(@PathVariable long id){
         return ResponseEntity.of(resumeService.getResume(id));
+    }
+    
+    @GetMapping(value="/resume/get/all")
+    public Iterable<Resume> getAllResumes() {
+        return resumeService.getAllResumes();
+    }
+    
+    @GetMapping(value="/resume/get/page/{pageNum}/{pageLen}")
+    public Page<Resume> getResumes(@PathVariable int pageNum, @PathVariable int pageLen) {
+        return resumeService.getResumes(pageNum, pageLen);
     }
 
 }
