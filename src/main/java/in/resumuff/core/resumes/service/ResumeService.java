@@ -47,8 +47,8 @@ public class ResumeService {
         return repository.findAll();
     }
 
-    public Page<Resume> getResumes(int pageNum, int pageLength) {
-        Pageable pageable = PageRequest.of(pageNum, pageLength);
+    public Page<Resume> getResumes(int pageNum, int pageLen) {
+        Pageable pageable = PageRequest.of(pageNum, pageLen);
         Page<Resume> resumes = repository.findAll(pageable);
         return resumes;
     }
