@@ -26,22 +26,22 @@ public class CommentService {
         return commentRepo.findById(id).orElse(null);
     }
 
-    public Iterable<Comment> getThread(long threadId) {
-        return commentRepo.findByThreadId(threadId);
+    public Iterable<Comment> getThread(long resumeId) {
+        return commentRepo.findByResumeIdAndIsThreadStarter(resumeId, true);
     }
 
     public Page<Comment> getThreads(int pageNum, int pageLen) {
         Pageable pageable = PageRequest.of(pageNum, pageLen);
-        Page<Comment> threads = commentRepo.findAllByParentId(-1, pageable);
+        Page<Comment> threads = commentRepo.findAllByIsThreadStarter(true, pageable);
         return threads;
     }
 
-	public Comment createThread(HttpSession session, long userId, long resumeId, String subject, String content) {
+	public Comment createThread(HttpSession session, long userId, long resumeId, String title, String description) {
         if(session.getAttribute("TOKEN") != null) {
             User user = userRepo.findById(userId).orElse(null);
             if(user != null) {
                 if(user.getAccessToken().equals(session.getAttribute("TOKEN")) && user.getRole().getSTART_NEW_THREAD()) {
-                    Comment comment = new Comment(userId, resumeId, subject, content);
+                    Comment comment = new Comment(userId, resumeId, title, description);
                     commentRepo.save(comment);
                     return comment;
                 }
@@ -50,12 +50,12 @@ public class CommentService {
         return null;
 	}
 
-	public Comment createComment(HttpSession session, long userId, long parentId, long threadId, String content) {
+	public Comment createComment(HttpSession session, long userId, long resumeId, String description) {
         if(session.getAttribute("TOKEN") != null) {
             User user = userRepo.findById(userId).orElse(null);
             if(user != null) {
                 if(user.getAccessToken().equals(session.getAttribute("TOKEN")) && user.getRole().getPOST_COMMENTS()) {
-                    Comment comment = new Comment(userId, parentId, threadId, content);
+                    Comment comment = new Comment(userId, resumeId, description);
                     commentRepo.save(comment);
                     return comment;
                 }

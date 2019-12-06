@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+// no nesting comments
 @Entity
 @Table(name="comments")
 public class Comment {
@@ -15,38 +15,36 @@ public class Comment {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     private long userId;
-    private long resumeId;
-    private long parentId;
-    private long threadId;
+    private long resumeId; 
     private long views;
+    private boolean isThreadStarter;
     private OffsetDateTime timestamp;
-    private String subject;
-    private String content;
+    private String title;
+    private String description;
     private int upvotes;
     private int downvotes;
 
     public Comment() {
     }
 
-    public Comment(long userId, long resumeId, String subject, String content) {
+    public Comment(long userId, long resumeId, String title, String description) {
         this.userId = userId;
-        this.parentId = -1;
         this.resumeId = resumeId;
         this.views = 0;
+        this.isThreadStarter = true;
         this.timestamp = getTimestamp();
-        this.subject = subject;
-        this.content = content;
+        this.title = title;
+        this.description = description;
         this.upvotes = 0;
         this.downvotes = 0;
     }
 
-    public Comment(long userId, long parentId, long threadId, String content) {
+    public Comment(long userId, long resumeId, String description) {
         this.userId = userId;
-        this.parentId = parentId;
-        this.threadId = threadId;
         this.views = 0;
+        this.isThreadStarter = false;
         this.timestamp = getTimestamp();
-        this.content = content;
+        this.description = description;
         this.upvotes = 0;
         this.downvotes = 0;
     }
@@ -75,40 +73,32 @@ public class Comment {
         this.resumeId = resumeId;
     }
 
-    public long getParentId() {
-        return this.parentId;
-    }
-
-    public void setParentId(long parentId) {
-        this.parentId = parentId;
-    }
-
-    public long getTheeadId() {
-        return this.threadId;
-    }
-
     public long getViews() {
         return this.views;
+    }
+
+    public boolean getIsThreadStarter() {
+        return this.isThreadStarter;
     }
 
     public OffsetDateTime getTimestamp() {
         return this.timestamp;
     }
 
-    public String getSubject() {
-        return this.subject;
+    public String getTitle() {
+        return this.title;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getContent() {
-        return this.content;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getUpvotes() {

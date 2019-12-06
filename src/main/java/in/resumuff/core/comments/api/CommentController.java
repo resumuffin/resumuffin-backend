@@ -28,10 +28,10 @@ public class CommentController {
         return comment;
     }
 
-    @ApiOperation(value="Get a thread from the database based on id")
+    @ApiOperation(value="Get a thread from the database based on resume id")
     @GetMapping("/comment/getThread/{threadId}")
-    public Iterable<Comment> getThread(@PathVariable long threadId) {
-        Iterable<Comment> comment = commentService.getThread(threadId);
+    public Iterable<Comment> getThread(@PathVariable long resumeId) {
+        Iterable<Comment> comment = commentService.getThread(resumeId);
         return comment;    
     }
 
@@ -44,14 +44,14 @@ public class CommentController {
     // check if allowed to create thread
     @ApiOperation(value="Creates a thread, checks if the user has sufficient privileges, uses sessions for security")
     @PostMapping("/comment/createThread/{userId}/{resumeId}/{subject}/{content}")
-    public Comment createThread(@ApiIgnore HttpSession session, @PathVariable long userId, @PathVariable long resumeId, @PathVariable String subject, @PathVariable String content) {
-        return commentService.createThread(session, userId, resumeId, subject, content);
+    public Comment createThread(@ApiIgnore HttpSession session, @PathVariable long userId, @PathVariable long resumeId, @PathVariable String title, @PathVariable String description) {
+        return commentService.createThread(session, userId, resumeId, title, description);
     }
 
     @ApiOperation(value="Creates a comment, checks if the user has sufficient privileges, uses sessions for security")
-    @GetMapping("/comment/createComment/{userId}/{parentId}/{threadId}/{content}")
-    public Comment addComment(@ApiIgnore HttpSession session, @PathVariable long userId, @PathVariable long parentId, @PathVariable long threadId, @PathVariable String content) {
-        return commentService.createComment(session, userId, parentId, threadId, content);
+    @GetMapping("/comment/createComment/{userId}/{resumeId}/{content}")
+    public Comment addComment(@ApiIgnore HttpSession session, @PathVariable long userId, @PathVariable long resumeId, @PathVariable String description) {
+        return commentService.createComment(session, userId, resumeId, description);
     }
 
     @ApiOperation(value="Deletes a comment, checks if the user has sufficient privileges, uses sessions for security")
