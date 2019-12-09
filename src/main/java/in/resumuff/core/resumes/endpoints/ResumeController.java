@@ -30,16 +30,22 @@ public class ResumeController {
     @ApiOperation(value="Uploads a resume to the database, also creates a thread in the comment database")
     public ResponseEntity<Resume> uploadResume(@ApiIgnore HttpSession session,
                                                @RequestParam("file") MultipartFile resumeFile,
-                                               @RequestParam("tags") int[] tags,
+                                               @RequestPart("tags") String[] tags,
                                                @RequestParam("title") String title,
                                                @RequestParam("description") String description) {
-//        Long uid = (Long)session.getAttribute("uid");
-//        if(uid == null)
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        System.err.println(session.getId());                                       
+        Long uid = (Long)session.getAttribute("USER_ID");
+        if(uid == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         
-        Optional<Resume> storedResume = resumeService.storeResume(0, resumeFile, tags);
+        Optional<Resume> storedResume = resumeService.storeResume((Long)session.getAttribute("USER_ID"), resumeFile, tags, title, description);
         if(storedResume.isPresent()){
-            commentService.createThread(session, (long)session.getAttribute("USER_ID"), storedResume.get().getId(), title, description);
+            try {
+                commentService.createThread(session, (Long)session.getAttribute("USER_ID"), storedResume.get().getId(), title, description);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
             return ResponseEntity.ok(storedResume.get());
         } else {
             return ResponseEntity.badRequest().build();

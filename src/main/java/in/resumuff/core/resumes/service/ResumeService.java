@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Optional;
 
 @Service
@@ -21,22 +22,35 @@ public class ResumeService {
     @Autowired
     private TagService tagService;
 
-    public Optional<Resume> storeResume(long uid, MultipartFile file, int[] tags){
+    public Optional<Resume> storeResume(long uid, MultipartFile file, String[] tags, String title, String description){
         String contentType = file.getContentType();
         if(contentType == null)
             return Optional.empty();
 
-        if(!tagService.validTags(tags))
+        if(!tagService.validTags(convertTags(tags)))
             return Optional.empty();
 
         try {
-            Resume resume = new Resume(uid, file.getBytes(), contentType.startsWith("image/"), tags);
+            Resume resume = new Resume(uid, file.getBytes(), contentType.startsWith("image/"), convertTags(tags), title, description);
             return Optional.of(repository.save(resume));
         } catch (IOException exc){
             exc.printStackTrace();
         }
         
         return Optional.empty();
+    }
+
+    int[] convertTags(String[] tags) {
+        int[] result = new int[tags.length];
+        try{
+            for(int i = 0; i < tags.length; ++i)
+                result[i] = Integer.parseInt(tags[i]);
+        }
+        catch(Exception exc) {
+            exc.printStackTrace();
+        }
+        return result;
+
     }
     
     public Optional<Resume> getResume(long id){

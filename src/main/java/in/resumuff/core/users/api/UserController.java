@@ -58,7 +58,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @ApiOperation(value="Gets a page of users with a set length")
+    @ApiOperation(value="Gets a page of users from the database, able to set page length")
     @GetMapping(value="/users/get/page/{pageNum}/{pageLen}")
     Page<User> getUsers(@PathVariable int pageNum, @PathVariable int pageLen) {
         return userService.getUsers(pageNum, pageLen);

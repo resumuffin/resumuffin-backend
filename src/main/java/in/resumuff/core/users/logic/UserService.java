@@ -50,6 +50,7 @@ public class UserService{
         }
 
         if(pwEncoder.matches(password, user.getPassword())) {
+            System.err.println(session.getId());    
             user.setAccessToken(StringGenerator.generate(32));
             session.setAttribute("TOKEN", user.getAccessToken());
             session.setAttribute("USER_ID", user.getId());
