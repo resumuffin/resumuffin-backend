@@ -1,5 +1,7 @@
 package in.resumuff.core.comments.logic;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,10 @@ public class CommentService {
         return commentRepo.findById(id).orElse(null);
     }
 
-    public Iterable<Comment> getThread(long resumeId) {
-        return commentRepo.findByResumeIdAndIsThreadStarter(resumeId, true);
+    public List<Comment> getThread(long resumeId) {
+        List<Comment> thread = commentRepo.findByResumeIdAndIsThreadStarterOrderByIdAsc(resumeId, true);
+        thread.addAll(commentRepo.findByResumeIdAndIsThreadStarterOrderByIdAsc(resumeId, false));
+        return thread;
     }
 
     public Page<Comment> getThreads(int pageNum, int pageLen) {
@@ -36,7 +40,8 @@ public class CommentService {
         return threads;
     }
 
-	public Comment createThread(HttpSession session, long userId, long resumeId, String title, String description) {
+	public Comment createThread(HttpSession session, long resumeId, String title, String description) {
+        long userId = (long)session.getAttribute("USER_ID");
         if(session.getAttribute("TOKEN") != null) {
             User user = userRepo.findById(userId).orElse(null);
             if(user != null) {
@@ -50,7 +55,8 @@ public class CommentService {
         return null;
 	}
 
-	public Comment createComment(HttpSession session, long userId, long resumeId, String description) {
+	public Comment createComment(HttpSession session, long resumeId, String description) {
+        long userId = (long)session.getAttribute("USER_ID");
         if(session.getAttribute("TOKEN") != null) {
             User user = userRepo.findById(userId).orElse(null);
             if(user != null) {

@@ -33,7 +33,6 @@ public class ResumeController {
                                                @RequestPart("tags") String[] tags,
                                                @RequestParam("title") String title,
                                                @RequestParam("description") String description) {
-        System.err.println(session.getId());                                       
         Long uid = (Long)session.getAttribute("USER_ID");
         if(uid == null)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -41,7 +40,7 @@ public class ResumeController {
         Optional<Resume> storedResume = resumeService.storeResume((Long)session.getAttribute("USER_ID"), resumeFile, tags, title, description);
         if(storedResume.isPresent()){
             try {
-                commentService.createThread(session, (Long)session.getAttribute("USER_ID"), storedResume.get().getId(), title, description);
+                commentService.createThread(session, storedResume.get().getId(), title, description);
             }
             catch(Exception e) {
                 e.printStackTrace();

@@ -1,5 +1,8 @@
 package in.resumuff.core.users.api;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.owasp.encoder.Encode;
@@ -8,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
@@ -21,18 +25,18 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value="/users/addUser/{email}/{username}/{password}")
+    @PostMapping(value="/users/addUser")
     @ApiOperation(value="Registers a new user into the database")
-    boolean registerUser(@PathVariable String email, @PathVariable String username, @PathVariable String password) {
-        email = Encode.forJava(email);
-        username = Encode.forJava(username);
-        password = Encode.forJava(password);
+    boolean registerUser(@RequestBody Map<String, String> json) {
+        String email = Encode.forJava(json.get("email"));
+        String username = Encode.forJava(json.get("username"));
+        String password = Encode.forJava(json.get("password"));
         return userService.registerUser(email, username, password);
     }
 
     @GetMapping(value="/users/authenticate/{userOrEmail}/{password}")
     @ApiOperation(value="Authenticates login info and fills in session variables")
-    boolean authenticate(@ApiIgnore HttpSession session, @PathVariable String userOrEmail, @PathVariable String password) {
+    User authenticate(@ApiIgnore HttpSession session, @PathVariable String userOrEmail, @PathVariable String password) {
         userOrEmail = Encode.forJava(userOrEmail);
         password = Encode.forJava(password);
         return userService.authenticate(session, userOrEmail, password);
@@ -54,7 +58,7 @@ public class UserController {
 
     @ApiOperation(value="Gets all users in the database")
     @GetMapping(value="/users/get/all")
-    Iterable<User> getAllUsers() {
+    List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 

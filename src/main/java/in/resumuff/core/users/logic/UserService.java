@@ -1,6 +1,7 @@
 package in.resumuff.core.users.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,24 +41,23 @@ public class UserService{
     }
 
     // logging in
-    public boolean authenticate(HttpSession session, String userOrEmail, String password) {
+    public User authenticate(HttpSession session, String userOrEmail, String password) {
         User user;
         user = userRepo.findByEmail(userOrEmail).orElse(null);
         if(user == null) {
             user = userRepo.findByUsername(userOrEmail).orElse(null);
             if(user == null)
-                return false;
+                return null;
         }
 
         if(pwEncoder.matches(password, user.getPassword())) {
-            System.err.println(session.getId());    
             user.setAccessToken(StringGenerator.generate(32));
             session.setAttribute("TOKEN", user.getAccessToken());
             session.setAttribute("USER_ID", user.getId());
             userRepo.save(user);
-            return true;
+            return user;
         }
-        return false;
+        return null;
     }
 
     // should hide some info
@@ -75,8 +75,8 @@ public class UserService{
         return null;
     }
 
-    public Iterable<User> getAllUsers() {
-        return userRepo.findAll();
+    public List<User> getAllUsers() {
+        return userRepo.findAllByOrderByIdAsc();
     }
 
     public Page<User> getUsers(int pageNum, int pageLen) {

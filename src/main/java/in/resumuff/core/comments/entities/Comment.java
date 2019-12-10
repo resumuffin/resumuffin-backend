@@ -42,6 +42,7 @@ public class Comment {
     public Comment(long userId, long resumeId, String description) {
         this.userId = userId;
         this.views = 0;
+        this.resumeId = resumeId;
         this.isThreadStarter = false;
         this.timestamp = getTimestamp();
         this.description = description;
