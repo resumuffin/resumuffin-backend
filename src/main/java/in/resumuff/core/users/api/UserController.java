@@ -42,16 +42,22 @@ public class UserController {
         return userService.authenticate(session, userOrEmail, password);
     } 
 
-    @GetMapping(value="/users/getUserDetails/{username}")
-    @ApiOperation(value="Gets a user's details (Should display non-sensitive info only)")
+    @GetMapping(value="/users/getUserDetailsByName/{username}")
+    @ApiOperation(value="Gets a user's details by username (Should display non-sensitive info only)")
     User getUser(@PathVariable String username) {
         username = Encode.forJava(username);
         return userService.getUserDetails(username);
     }
 
+    @GetMapping(value="/users/getUserDetailsById/{id}")
+    @ApiOperation(value="Gets a user's details by id (Should display non-sensitive info only)")
+    User getUserById(@PathVariable Long id) {
+        return userService.getUserDetails(id);
+    }
+
     @ApiOperation(value="Gets a user's complete details EX: When a user views themself, uses sessions for security")
     @GetMapping(value="/users/getUserDetailsFull/{username}")
-    User getUser(@ApiIgnore HttpSession session, @PathVariable String username) {
+    User getUserFull(@ApiIgnore HttpSession session, @PathVariable String username) {
         username = Encode.forJava(username);
         return userService.getUserDetailsFull(session, username);
     }

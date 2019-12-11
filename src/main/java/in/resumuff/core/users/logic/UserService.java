@@ -65,6 +65,10 @@ public class UserService{
         return userRepo.findByUsername(username).orElse(null);
     }
 
+    public User getUserDetails(Long id) {
+        return userRepo.findById(id).orElse(null);
+    }
+
     public User getUserDetailsFull(HttpSession session, String username) {
         if(session.getAttribute("TOKEN") != null) {
             User user = userRepo.findByUsername(username).orElse(null);
