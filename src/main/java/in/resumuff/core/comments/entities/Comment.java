@@ -32,7 +32,7 @@ public class Comment {
         this.resumeId = resumeId;
         this.views = 0;
         this.isThreadStarter = true;
-        this.timestamp = getTimestamp();
+        this.timestamp = OffsetDateTime.now();
         this.title = title;
         this.description = description;
         this.upvotes = 0;
@@ -44,7 +44,7 @@ public class Comment {
         this.views = 0;
         this.resumeId = resumeId;
         this.isThreadStarter = false;
-        this.timestamp = getTimestamp();
+        this.timestamp = OffsetDateTime.now();
         this.description = description;
         this.upvotes = 0;
         this.downvotes = 0;

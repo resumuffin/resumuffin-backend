@@ -60,8 +60,8 @@ public class CommentController {
 
     @ApiOperation(value="Deletes a comment, checks if the user has sufficient privileges, uses sessions for security")
     @GetMapping("/comment/deleteComment/{id}/{userId}")
-    public void deleteComment(@ApiIgnore HttpSession session, @PathVariable long id, @PathVariable long userId) {
-        commentService.deleteComment(session, id, userId);
+    public void deleteComment(@ApiIgnore HttpSession session, @PathVariable String id, @PathVariable String userId) {
+        commentService.deleteComment(session, Long.parseLong(id), Long.parseLong(userId));
     }
 
     // need to make sure user can only rate once
