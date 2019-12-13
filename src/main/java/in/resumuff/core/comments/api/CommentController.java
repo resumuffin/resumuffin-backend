@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,12 @@ public class CommentController {
     public Page<Comment> getThreads(@PathVariable int pageNum, @PathVariable int pageLen) {
         return commentService.getThreads(pageNum, pageLen);
     }
+
+    @ApiOperation(value="Get all threads from the database based on a userId")
+    @GetMapping(value="/comment/get/user/{userId}")
+    public List<Comment> getThreadsByUser(@PathVariable long userId) {
+        return commentService.getThreadsByUser(userId);
+    }
     /*
     // check if allowed to create thread
     @ApiOperation(value="Creates a thread, checks if the user has sufficient privileges, uses sessions for security")
@@ -59,9 +66,9 @@ public class CommentController {
     }
 
     @ApiOperation(value="Deletes a comment, checks if the user has sufficient privileges, uses sessions for security")
-    @GetMapping("/comment/deleteComment/{id}/{userId}")
-    public void deleteComment(@ApiIgnore HttpSession session, @PathVariable String id, @PathVariable String userId) {
-        commentService.deleteComment(session, Long.parseLong(id), Long.parseLong(userId));
+    @DeleteMapping("/comment/deleteComment/{id}")
+    public void deleteComment(@ApiIgnore HttpSession session, @PathVariable String id) {
+        commentService.deleteComment(session, Long.parseLong(id));
     }
 
     // need to make sure user can only rate once

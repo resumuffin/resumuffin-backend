@@ -88,4 +88,14 @@ public class UserService{
         Page<User> users = userRepo.findAll(pageable);
         return users;
     }
+
+    public boolean hasDeleteAbility(HttpSession session) {
+        long userId = (long)session.getAttribute("USER_ID");
+        if(session.getAttribute("TOKEN") != null) {
+            User user = userRepo.findById(userId).orElse(null);
+            if(user.getAccessToken().equals(session.getAttribute("TOKEN")) && user.getRole().getDELETE_COMMENTS())
+                return true;
+        }
+        return true;
+    }
 }

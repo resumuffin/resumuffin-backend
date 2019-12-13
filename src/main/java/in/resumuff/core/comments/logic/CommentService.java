@@ -34,11 +34,17 @@ public class CommentService {
         return thread;
     }
 
+    public List<Comment> getThreadsByUser(long userId) {
+        return commentRepo.findByUserIdAndIsThreadStarterOrderByIdDesc(userId, true);
+    }
+
     public Page<Comment> getThreads(int pageNum, int pageLen) {
         Pageable pageable = PageRequest.of(pageNum, pageLen);
         Page<Comment> threads = commentRepo.findAllByIsThreadStarter(true, pageable);
         return threads;
     }
+
+  
 
 	public Comment createThread(HttpSession session, long resumeId, String title, String description) {
         long userId = (long)session.getAttribute("USER_ID");
@@ -70,7 +76,8 @@ public class CommentService {
         return null;
 	}
 
-	public void deleteComment(HttpSession session, long id, long userId) {
+	public void deleteComment(HttpSession session, long id) {
+        long userId = (Long)session.getAttribute("USER_ID");
         if(session.getAttribute("TOKEN") != null) {
             Comment comment = commentRepo.findById(id).orElse(null);
             if(comment != null) {
@@ -82,7 +89,11 @@ public class CommentService {
                 }
             }
         }
-	}
+    }
+    
+    public void deleteCommentsRecursive(long resumeId) {
+        commentRepo.deleteAllByResumeId(resumeId);
+    }
 
 	public void upvoteComment(HttpSession session, long id) {
         if(session.getAttribute("TOKEN") != null) {

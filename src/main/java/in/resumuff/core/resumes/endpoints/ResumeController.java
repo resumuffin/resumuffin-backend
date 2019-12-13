@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,10 +36,11 @@ public class ResumeController {
                                                @RequestParam("title") String title,
                                                @RequestParam("description") String description) {
         Long uid = (Long)session.getAttribute("USER_ID");
+    
         if(uid == null)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         
-        Optional<Resume> storedResume = resumeService.storeResume((Long)session.getAttribute("USER_ID"), resumeFile, tags, title, description);
+        Optional<Resume> storedResume = resumeService.storeResume(uid, resumeFile, tags, title, description);
         if(storedResume.isPresent()){
             try {
                 commentService.createThread(session, storedResume.get().getId(), title, description);
@@ -64,6 +67,11 @@ public class ResumeController {
     @GetMapping(value="/resume/get/page/{pageNum}/{pageLen}")
     public Page<Resume> getResumes(@PathVariable int pageNum, @PathVariable int pageLen) {
         return resumeService.getResumes(pageNum, pageLen);
+    }
+
+    @DeleteMapping(value="/resume/delete/{id}")
+    public void deleteResume(@ApiIgnore HttpSession session, @PathVariable long id) {
+        resumeService.deleteResume(session, id);
     }
 
 }

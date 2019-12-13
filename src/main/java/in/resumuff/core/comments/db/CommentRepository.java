@@ -16,5 +16,9 @@ import in.resumuff.core.comments.entities.Comment;
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Long> {
     List<Comment> findByResumeIdAndIsThreadStarterOrderByIdAsc(long resumeId, boolean isThreadStarter);
 
+    List<Comment> findByUserIdAndIsThreadStarterOrderByIdDesc(long userId, boolean isThreadStarter);
+
     Page<Comment> findAllByIsThreadStarter(boolean isThreadStarter, Pageable pageable);
+
+    void deleteAllByResumeId(long resumeId);
 }
