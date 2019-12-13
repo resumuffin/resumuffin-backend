@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +27,13 @@ public class CommentController {
     @GetMapping("/comment/getComment/{id}")
     @ApiOperation(value="Get a comment from the database based on id")
     public Comment getComment(@PathVariable long id) {
-        Comment comment = commentService.getComment(id);
-        return comment;
+        return commentService.getComment(id);
     }
 
     @ApiOperation(value="Get a thread from the database based on resume id")
     @GetMapping("/comment/getThread/{resumeId}")
     public List<Comment> getThread(@PathVariable long resumeId) {
-        List<Comment> comment = commentService.getThread(resumeId);
-        return comment;    
+        return commentService.getThread(resumeId);
     }
 
     @ApiOperation(value="Get a page of threads from the database, able to set page length")
@@ -53,15 +52,15 @@ public class CommentController {
     @ApiOperation(value="Creates a comment using a resumeId and a description, checks if the user has sufficient privileges, uses sessions for security")
     @PostMapping(value="/comment/createComment", consumes="application/json")
     public Comment addComment(@ApiIgnore HttpSession session, @RequestBody Map<String, Object> json) {
-        Long resumeId = Long.parseLong(json.get("resumeId").toString());
-        String description = (String)json.get("description");
+        long resumeId = Long.parseLong(json.get("resumeId").toString());
+        String description = Encode.forJava((String)json.get("description"));
         return commentService.createComment(session, resumeId, description);
     }
 
     @ApiOperation(value="Deletes a comment, checks if the user has sufficient privileges, uses sessions for security")
     @GetMapping("/comment/deleteComment/{id}/{userId}")
     public void deleteComment(@ApiIgnore HttpSession session, @PathVariable String id, @PathVariable String userId) {
-        commentService.deleteComment(session, Long.parseLong(id), Long.parseLong(userId));
+        commentService.deleteComment(session, Long.parseLong(id));
     }
 
     // need to make sure user can only rate once

@@ -34,11 +34,11 @@ public class UserController {
         return userService.registerUser(email, username, password);
     }
 
-    @GetMapping(value="/users/authenticate/{userOrEmail}/{password}")
+    @PostMapping(value="/users/authenticate")
     @ApiOperation(value="Authenticates login info and fills in session variables")
-    User authenticate(@ApiIgnore HttpSession session, @PathVariable String userOrEmail, @PathVariable String password) {
-        userOrEmail = Encode.forJava(userOrEmail);
-        password = Encode.forJava(password);
+    User authenticate(@ApiIgnore HttpSession session, @RequestBody Map<String, String> json) {
+        String userOrEmail = Encode.forJava(json.get("username"));
+        String password = Encode.forJava(json.get("password"));
         return userService.authenticate(session, userOrEmail, password);
     } 
 
@@ -56,10 +56,9 @@ public class UserController {
     }
 
     @ApiOperation(value="Gets a user's complete details EX: When a user views themself, uses sessions for security")
-    @GetMapping(value="/users/getUserDetailsFull/{username}")
-    User getUserFull(@ApiIgnore HttpSession session, @PathVariable String username) {
-        username = Encode.forJava(username);
-        return userService.getUserDetailsFull(session, username);
+    @GetMapping(value="/users/getUserDetailsFull/")
+    User getUserFull(@ApiIgnore HttpSession session) {
+        return userService.getUserDetailsFull(session);
     }
 
     @ApiOperation(value="Gets all users in the database")

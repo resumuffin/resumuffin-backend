@@ -12,36 +12,37 @@ public class Role {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private short id;
     private String name;
-    private boolean POST_COMMENTS;
-    private boolean DELETE_COMMENTS;
-    private boolean RATE_COMMENTS;
-    private boolean UPLOAD_RESUME;
-    private boolean START_NEW_THREAD;
+    
+    private boolean canPostComments;
+    private boolean canDeleteComments;
+    private boolean canRateComments;
+    private boolean canUploadResume;
+    private boolean canStartNewThread;
 
     public Role() {
-        this.POST_COMMENTS = false;
-        this.DELETE_COMMENTS = false;
-        this.RATE_COMMENTS = false;
-        this.UPLOAD_RESUME = false;
-        this.START_NEW_THREAD = false;
+        this.canPostComments = false;
+        this.canDeleteComments = false;
+        this.canRateComments = false;
+        this.canUploadResume = false;
+        this.canStartNewThread = false;
     }
 
     public Role(String name) {
         this.name = name;
-        this.POST_COMMENTS = false;
-        this.DELETE_COMMENTS = false;
-        this.RATE_COMMENTS = false;
-        this.UPLOAD_RESUME = false;
-        this.START_NEW_THREAD = false;
+        this.canPostComments = false;
+        this.canDeleteComments = false;
+        this.canRateComments = false;
+        this.canUploadResume = false;
+        this.canStartNewThread = false;
     }
 
-    public Role(String name, boolean POST_COMMENTS, boolean DELETE_COMMENTS, boolean RATE_COMMENTS, boolean UPLOAD_RESUME, boolean START_NEW_THREAD) {
+    public Role(String name, boolean canPostComments, boolean canDeleteComments, boolean canRateComments, boolean canUploadResume, boolean canStartNewThread) {
         this.name = name;
-        this.POST_COMMENTS = POST_COMMENTS;
-        this.DELETE_COMMENTS = DELETE_COMMENTS;
-        this.RATE_COMMENTS = RATE_COMMENTS;
-        this.UPLOAD_RESUME = UPLOAD_RESUME;
-        this.START_NEW_THREAD = START_NEW_THREAD;
+        this.canPostComments = canPostComments;
+        this.canDeleteComments = canDeleteComments;
+        this.canRateComments = canRateComments;
+        this.canUploadResume = canUploadResume;
+        this.canStartNewThread = canStartNewThread;
     }
 
     public short getId() {
@@ -60,43 +61,44 @@ public class Role {
         this.name = name;
     }
 
-    public boolean getPOST_COMMENTS() {
-        return this.POST_COMMENTS;
+    public boolean getCanPostComments() {
+        return this.canPostComments;
     }
 
-    public void setPOST_COMMENTS(boolean POST_COMMENTS) {
-        this.POST_COMMENTS = POST_COMMENTS;
+    public void setCanPostComments(boolean canPostComments) {
+        this.canPostComments = canPostComments;
     }
 
-    public boolean getDELETE_COMMENTS() {
-        return this.DELETE_COMMENTS;
+    public boolean getCanDeleteComments() {
+        return this.canDeleteComments;
     }
 
-    public void setDELETE_COMMENTS(boolean DELETE_COMMENTS) {
-        this.DELETE_COMMENTS = DELETE_COMMENTS;
+    public void setCanDeleteComments(boolean canDeleteComments) {
+        this.canDeleteComments = canDeleteComments;
     }
 
-    public boolean getRATE_COMMENTS() {
-        return this.RATE_COMMENTS;
+    public boolean getCanRateComments() {
+        return this.canRateComments;
     }
 
-    public void setRATE_COMMENTS(boolean RATE_COMMENTS) {
-        this.RATE_COMMENTS = RATE_COMMENTS;
+    public void setCanRateComments(boolean canRateComments) {
+        this.canRateComments = canRateComments;
     }
 
-    public boolean getUPLOAD_RESUME() {
-        return this.UPLOAD_RESUME;
+    public boolean getCanUploadResume() {
+        return this.canUploadResume;
     }
 
-    public void setUPLOAD_RESUME(boolean UPLOAD_RESUME) {
-        this.UPLOAD_RESUME = UPLOAD_RESUME;
+    public void setCanUploadResume(boolean canUploadResume) {
+        this.canUploadResume = canUploadResume;
     }
 
-    public boolean getSTART_NEW_THREAD() {
-        return this.START_NEW_THREAD;
+    public boolean getCanStartNewThread() {
+        return this.canStartNewThread;
     }
 
-    public void setSTART_NEW_THREAD(boolean START_NEW_THREAD) {
-        this.START_NEW_THREAD = START_NEW_THREAD;
+    public void setCanStartNewThread(boolean canStartNewThread) {
+        this.canStartNewThread = canStartNewThread;
     }
+    
 }

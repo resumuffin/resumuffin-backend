@@ -24,8 +24,7 @@ public class User {
     @JoinColumn(name="role_id", nullable=false, updatable=false)
     private Role role;
 
-    public User() {
-    }
+    public User() {}
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -87,4 +86,9 @@ public class User {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
+    
+    public boolean hasPermission(Permission node){
+        return node.checkPermission(role);
+    }
+    
 }

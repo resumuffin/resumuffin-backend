@@ -20,6 +20,7 @@ public class TagService {
     
     public Optional<Tag> createTag(Tag tag){
         Optional<Tag> existing = getTag(tag.getId());
+        
         if(existing.isPresent())
             return existing;
 
@@ -31,6 +32,7 @@ public class TagService {
         } catch (PersistenceException exc){
             repository.deleteById(tag.getId());
         }
+        
         return Optional.of(tag);
     }
     
@@ -47,9 +49,7 @@ public class TagService {
     }
 
     public Page<Tag> getTags(int pageNum, int pageLength) {
-        Pageable pageable = PageRequest.of(pageNum, pageLength);
-        Page<Tag> tags = repository.findAll(pageable);
-        return tags;
+        return repository.findAll(PageRequest.of(pageNum, pageLength));
     }
 
     public boolean validTags(int[] tags){

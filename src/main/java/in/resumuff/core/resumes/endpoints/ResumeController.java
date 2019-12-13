@@ -3,6 +3,7 @@ package in.resumuff.core.resumes.endpoints;
 import in.resumuff.core.comments.logic.CommentService;
 import in.resumuff.core.resumes.entity.Resume;
 import in.resumuff.core.resumes.service.ResumeService;
+import in.resumuff.core.users.logic.UserService;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ResumeController {
     @Autowired
     private CommentService commentService;
     
+    @Autowired
+    private UserService userService;
+    
     @PostMapping(value = "/resume/upload", consumes = "multipart/form-data")
     @ApiOperation(value="Uploads a resume to the database, also creates a thread in the comment database")
     public ResponseEntity<Resume> uploadResume(@ApiIgnore HttpSession session,
@@ -33,19 +37,15 @@ public class ResumeController {
                                                @RequestPart("tags") String[] tags,
                                                @RequestParam("title") String title,
                                                @RequestParam("description") String description) {
-        Long uid = (Long)session.getAttribute("USER_ID");
-        if(uid == null)
+        if(!userService.isSessionValid(session))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         
-        Optional<Resume> storedResume = resumeService.storeResume((Long)session.getAttribute("USER_ID"), resumeFile, tags, title, description);
+        Long uid = (Long)session.getAttribute("USER_ID");
+        Optional<Resume> storedResume = resumeService.storeResume(uid, resumeFile, tags, title, description);
+        
         if(storedResume.isPresent()){
-            try {
-                commentService.createThread(session, storedResume.get().getId(), title, description);
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
-            return ResponseEntity.ok(storedResume.get());
+            commentService.createThread(session, storedResume.get().getId(), title, description);
+            return ResponseEntity.of(storedResume);
         } else {
             return ResponseEntity.badRequest().build();
         }
