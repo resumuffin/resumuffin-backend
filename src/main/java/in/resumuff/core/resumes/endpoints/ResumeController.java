@@ -3,6 +3,7 @@ package in.resumuff.core.resumes.endpoints;
 import in.resumuff.core.comments.logic.CommentService;
 import in.resumuff.core.resumes.entity.Resume;
 import in.resumuff.core.resumes.service.ResumeService;
+import in.resumuff.core.users.entities.User;
 import in.resumuff.core.users.logic.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,11 @@ public class ResumeController {
                                                @RequestPart("tags") String[] tags,
                                                @RequestParam("title") String title,
                                                @RequestParam("description") String description){
-        if(!userService.isSessionValid(session))
+        User user = userService.getUserDetailsFull(session);
+        if(user == null)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         
-        Long uid = (Long) session.getAttribute("USER_ID");
-        Optional<Resume> storedResume = resumeService.storeResume(uid, resumeFile, tags, title, description);
+        Optional<Resume> storedResume = resumeService.storeResume(user.getId(), resumeFile, tags, title, description);
         if(storedResume.isPresent()){
             commentService.createThread(session, storedResume.get().getId(), title, description);
             return ResponseEntity.of(storedResume);
