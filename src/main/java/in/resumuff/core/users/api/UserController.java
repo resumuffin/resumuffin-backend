@@ -50,7 +50,7 @@ public class UserController {
     }
     
     @ApiOperation(value = "Gets a user's complete details EX: When a user views themself, uses sessions for security")
-    @GetMapping(value = "/users/getUserDetailsFull/")
+    @GetMapping(value = "/users/getUserDetailsFull")
     User getUserFull(@ApiIgnore HttpSession session){
         return userService.getUserDetailsFull(session);
     }
