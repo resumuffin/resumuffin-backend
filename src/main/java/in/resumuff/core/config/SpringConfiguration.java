@@ -7,10 +7,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 public class SpringConfiguration {
-
+    
     @Bean
     public MultipartResolver multipartResolver(){
         return new CommonsMultipartResolver();
     }
-
+    
 }

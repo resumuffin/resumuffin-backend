@@ -7,9 +7,9 @@ import javax.persistence.Id;
 
 @Entity
 public class Role {
-  
+    
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
     private String name;
     
@@ -18,16 +18,16 @@ public class Role {
     private boolean canRateComments;
     private boolean canUploadResume;
     private boolean canStartNewThread;
-
-    public Role() {
+    
+    public Role(){
         this.canPostComments = false;
         this.canDeleteComments = false;
         this.canRateComments = false;
         this.canUploadResume = false;
         this.canStartNewThread = false;
     }
-
-    public Role(String name) {
+    
+    public Role(String name){
         this.name = name;
         this.canPostComments = false;
         this.canDeleteComments = false;
@@ -35,8 +35,8 @@ public class Role {
         this.canUploadResume = false;
         this.canStartNewThread = false;
     }
-
-    public Role(String name, boolean canPostComments, boolean canDeleteComments, boolean canRateComments, boolean canUploadResume, boolean canStartNewThread) {
+    
+    public Role(String name, boolean canPostComments, boolean canDeleteComments, boolean canRateComments, boolean canUploadResume, boolean canStartNewThread){
         this.name = name;
         this.canPostComments = canPostComments;
         this.canDeleteComments = canDeleteComments;
@@ -44,60 +44,60 @@ public class Role {
         this.canUploadResume = canUploadResume;
         this.canStartNewThread = canStartNewThread;
     }
-
-    public short getId() {
+    
+    public short getId(){
         return this.id;
     }
-
-    public void setId(short id) {
+    
+    public void setId(short id){
         this.id = id;
     }
-
-    public String getName() {
+    
+    public String getName(){
         return this.name;
     }
-
-    public void setName(String name) {
+    
+    public void setName(String name){
         this.name = name;
     }
-
-    public boolean getCanPostComments() {
+    
+    public boolean getCanPostComments(){
         return this.canPostComments;
     }
-
-    public void setCanPostComments(boolean canPostComments) {
+    
+    public void setCanPostComments(boolean canPostComments){
         this.canPostComments = canPostComments;
     }
-
-    public boolean getCanDeleteComments() {
+    
+    public boolean getCanDeleteComments(){
         return this.canDeleteComments;
     }
-
-    public void setCanDeleteComments(boolean canDeleteComments) {
+    
+    public void setCanDeleteComments(boolean canDeleteComments){
         this.canDeleteComments = canDeleteComments;
     }
-
-    public boolean getCanRateComments() {
+    
+    public boolean getCanRateComments(){
         return this.canRateComments;
     }
-
-    public void setCanRateComments(boolean canRateComments) {
+    
+    public void setCanRateComments(boolean canRateComments){
         this.canRateComments = canRateComments;
     }
-
-    public boolean getCanUploadResume() {
+    
+    public boolean getCanUploadResume(){
         return this.canUploadResume;
     }
-
-    public void setCanUploadResume(boolean canUploadResume) {
+    
+    public void setCanUploadResume(boolean canUploadResume){
         this.canUploadResume = canUploadResume;
     }
-
-    public boolean getCanStartNewThread() {
+    
+    public boolean getCanStartNewThread(){
         return this.canStartNewThread;
     }
-
-    public void setCanStartNewThread(boolean canStartNewThread) {
+    
+    public void setCanStartNewThread(boolean canStartNewThread){
         this.canStartNewThread = canStartNewThread;
     }
     
