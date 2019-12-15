@@ -20,7 +20,7 @@ public class UserController {
     UserService userService;
     
     @PostMapping(value = "/users/addUser")
-    @ApiOperation(value = "Registers a new user into the database")
+    @ApiOperation(value = "Registers a new user into the database, sets session variables")
     boolean registerUser(@RequestBody Map<String, String> json){
         String email = Encode.forJava(json.get("email"));
         String username = Encode.forJava(json.get("username"));

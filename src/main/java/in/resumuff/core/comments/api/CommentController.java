@@ -43,14 +43,6 @@ public class CommentController {
         return commentService.getThreadsByUser(userId);
     }
     
-    /*
-    // check if allowed to create thread
-    @ApiOperation(value="Creates a thread, checks if the user has sufficient privileges, uses sessions for security")
-    @PostMapping("/comment/createThread/{userId}/{resumeId}/{subject}/{content}")
-    public Comment createThread(@ApiIgnore HttpSession session, @PathVariable long resumeId, @PathVariable String title, @PathVariable String description) {
-        return commentService.createThread(session, resumeId, title, description);
-    }
-    */
     @ApiOperation(value = "Creates a comment using a resumeId and a description, checks if the user has sufficient privileges, uses sessions for security")
     @PostMapping(value = "/comment/createComment", consumes = "application/json")
     public Comment addComment(@ApiIgnore HttpSession session, @RequestBody Map<String, Object> json){
